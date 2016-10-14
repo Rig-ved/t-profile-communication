@@ -1,0 +1,87 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../t-button/t-button.html">
+<link rel="import" href="../t-passenger-info/t-communication.html">
+<link rel="import" href="../t-section-header/t-section-header.html" />
+<link rel="import" href="../t-text-container/travel-element-styles.html" />
+
+<!--
+    <h3>Details:</h3>
+        The `t-profile-communication` is a form component for getting the email and phoneNumber for a profile or an user.
+        It uses two components primarily, one being `t-communication` which is used to get user's email and phone number.
+        The second being `t-button` which is used to record/save all the above informations. 
+       
+        It uses following child components in it -
+         <ul>
+          <ol> 1.`t-communication`</ol>
+          <ol> 2.`t-button`</ol> 
+         </ul>
+
+         The hide section header property is used to hide the default section header present in `t-communication` component
+
+    <h3>Events:</h3>
+        Following events are fired by this component.
+           <p>'_collectCommunicationInfo' - fired when user clicks on save button.</p>
+
+    <h3>Example:</h3>
+
+        <t-profile-communication>
+
+        </t-profile-communication>
+
+    @demo demo/index.html
+-->
+
+<dom-module id="t-profile-communication">
+        <style include="travel-element-styles">
+              t-button {
+                  display: block;
+              }
+              t-section-header {
+                  display: block;   
+              }
+              </style>
+        <template>
+              <!-- content tag to insert header component-->
+              <content select=".t-header"></content>
+              <t-communication 
+              id='profileCommunication'
+              communication={{communication}}
+              class="margin-bottom-medium"
+              hide-section-header>
+              </t-communication>
+              <t-button 
+                  class="primary row" 
+                  label="Save"
+                  on-tap="_collectCommunicationInfo">                            
+              </t-button>
+        </template>
+          <script>
+                (function () {
+                  'use strict'
+                    Polymer({
+                     is: 't-profile-communication',
+                     properties:{
+                        /**
+                         * The communication Object to return all the communication related information inputted by the user.
+                         * @type {Object}
+                         */
+                        communication: {
+                            type: Object,
+                            notify: true
+                        }
+                     },
+                     _collectCommunicationInfo:function(){
+                      if(this.$.profileCommunication.validate()){
+                          this.communication={
+                            "email":this.$.profileCommunication.email,
+                            "phone":this.$.profileCommunication.phone
+                          }
+                      }
+                     }
+
+                   
+                     
+                });
+              })();
+          </script>
+</dom-module>
